@@ -168,5 +168,67 @@
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="./js/app.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector(".form_btn");
+    
+        form.addEventListener("Submit", function (event) {
+          // Prevent the form from submitting
+          event.preventDefault();
+    
+          // Validate the form fields
+          const nameInput = document.querySelector(".form_input[name='Name']");
+          const emailInput = document.querySelector(".form_input[name='Email']");
+          const passwordInput = document.querySelector(".form_input[name='Password']");
+    
+          // Reset previous error messages
+          clearErrorMessages();
+    
+          // Validate name
+          if (!validateField(nameInput)) {
+            showError(nameInput, "Name is required");
+            return;
+          }
+    
+          // Validate email
+          if (!validateField(emailInput) || !validateEmail(emailInput.value)) {
+            showError(emailInput, "Invalid email address");
+            return;
+          }
+    
+          // Validate password
+          if (!validateField(passwordInput)) {
+            showError(passwordInput, "Password is required");
+            return;
+          }
+    
+          // If all validations pass, you can submit the form
+          // Uncomment the line below if you want to submit the form programmatically
+          // form.submit();
+        });
+    
+        function validateField(field) {
+          return field.value.trim() !== "";
+        }
+    
+        function validateEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+    
+        function showError(inputField, errorMessage) {
+          const errorSpan = document.createElement("span");
+          errorSpan.className = "error_message";
+          errorSpan.innerText = errorMessage;
+    
+          inputField.parentNode.appendChild(errorSpan);
+        }
+    
+        function clearErrorMessages() {
+          const errorMessages = document.querySelectorAll(".error_message");
+          errorMessages.forEach((errorMessage) => errorMessage.remove());
+        }
+      });
+    </script>
   </body>
 </html>
